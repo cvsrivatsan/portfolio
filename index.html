@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Srivatsan – Portfolio</title>
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#f5f5f7;
+  --bg-alt:#e9eaee;
+  --text:#111;
+  --card:rgba(255,255,255,.75);
+  --accent:rgba(0,122,255,.18);
+}
+body.dark{
+  --bg:#0f0f11;
+  --bg-alt:#1a1a1d;
+  --text:#f5f5f7;
+  --card:rgba(30,30,34,.75);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:linear-gradient(180deg,var(--bg),var(--bg-alt),var(--bg));
+  color:var(--text);
+}
+.section{
+  padding:120px 6vw;
+  scroll-margin-top:110px; /* anchors visible below fixed header */
+}
+/* ================= HEADER ================= */
+header{
+  position:fixed;
+  top:0; left:0; right:0;
+  padding:18px 6vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:1000;
+  transition:.35s ease;
+}
+header.shrink{
+  background:rgba(255,255,255,.65);
+  backdrop-filter:blur(18px);
+}
+body.dark header.shrink{
+  background:rgba(20,20,25,.7);
+}
+.name{cursor:pointer;}
+.name .full{font-weight:600;}
+.name .role{font-size:12px;opacity:.7;}
+.name .short{display:none;font-size:22px;font-weight:700;transition:.25s;}
+header.shrink .full,
+header.shrink .role{display:none;}
+header.shrink .short{display:block;font-size:28px;font-weight:800;}
+/* NAV */
+.right{display:flex;align-items:center;gap:18px;}
+.nav{display:flex;gap:14px;align-items:center;}
+.nav a{
+  text-decoration:none;
+  color:var(--text);
+  opacity:.8;
+  font-size:14px;
+  font-weight:500;
+  padding:8px 10px;
+  border-radius:10px;
+  transition:background .2s, opacity .2s;
+  position:relative;
+}
+.nav a:hover{opacity:1;background:var(--accent);}
+@media (max-width:900px){ .nav{display:none;} }
+/* Dropdown menus */
+.menu{position:relative;}
+.dropdown{
+  position:absolute; top:calc(100% + 8px); left:0;
+  display:none;
+  min-width:240px;
+  background:var(--card);
+  backdrop-filter:blur(14px);
+  border-radius:14px;
+  padding:8px;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
+  z-index:1100;
+}
+body.dark .dropdown{border:1px solid rgba(255,255,255,.10); box-shadow:0 12px 30px rgba(0,0,0,.5);}
+.dropdown a{
+  display:block;
+  padding:10px 12px;
+  margin:2px 0;
+}
+.dropdown a:hover{background:var(--accent);}
+.menu:hover .dropdown,
+.menu:focus-within .dropdown{display:block;}
+/* DARK MODE TOGGLE */
+.toggle{
+  width:46px;height:26px;
+  background:#ccc;border-radius:20px;
+  cursor:pointer;position:relative;
+  flex:0 0 auto;
+}
+.toggle::after{
+  content:"";
+  position:absolute;
+  width:20px;height:20px;
+  background:#fff;border-radius:50%;
+  top:3px;left:3px;
+  transition:.3s;
+}
+body.dark .toggle{background:#555;}
+body.dark .toggle::after{left:23px;background:#0f0f11;}
+/* CARD */
+.card{
+  background:var(--card);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  padding:26px;
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+/* Education grid and spacing */
+.education{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:36px; /* comfortable gap */
+}
+/* subtle hover reveal */
+.reveal{
+  opacity:0;
+  font-size:13px;
+  margin-top:8px;
+  transition:.25s;
+}
+.card:hover .reveal{opacity:1;}
+/* EXPERIENCE */
+.exp-card{margin-bottom:28px;}
+.exp-card ul{margin:10px 0 0; padding-left:18px;}
+.exp-card li{font-size:14px; line-height:1.35;}
+.meta-year{
+  opacity:0;
+  font-size:13px;
+  margin-top:6px;
+  transition:.25s;
+}
+.exp-card:hover .meta-year{opacity:.85;}
+.hover-reveal{
+  opacity:0;
+  font-size:13px;
+  margin-top:6px;
+  transition:.25s;
+}
+.exp-card:hover .hover-reveal{opacity:.85;}
+/* Explore CTA */
+.explore{
+  color:#007aff;
+  font-weight:500;
+  cursor:pointer;
+  display:inline-block;
+  margin-top:10px;
+}
+/* CAROUSEL */
+.carousel-wrap{
+  position:relative;
+  overflow:hidden;
+  margin-top:40px;
+}
+.carousel{
+  display:flex;
+  gap:24px;
+  transition:transform .8s cubic-bezier(.22,.61,.36,1);
+  will-change:transform;
+}
+.carousel .card{
+  min-width:460px; /* larger cards */
+  flex-shrink:0;
+  padding:28px;
+}
+.carousel .card .title{
+  font-weight:600;
+  margin-bottom:6px;
+}
+.carousel .card ul{
+  margin:10px 0 0;
+  padding-left:18px;
+}
+.carousel .card li{
+  font-size:14px;
+  line-height:1.35;
+}
+/* CIRCULAR ARROWS (translucent) */
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  cursor:pointer;
+  z-index:6;
+  box-shadow:0 6px 22px rgba(0,0,0,.12);
+}
+.arrow.left{left:12px;}
+.arrow.right{right:12px;}
+body.dark .arrow{
+  background:rgba(20,20,25,.45);
+  box-shadow:0 6px 22px rgba(0,0,0,.45);
+}
+/* SKILLS (hover fill) */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+}
+.skill{
+  position:relative;
+  padding:14px 16px;
+  border-radius:12px;
+  background:rgba(255,255,255,.6);
+  overflow:hidden;
+}
+body.dark .skill{background:rgba(30,30,35,.7);}
+.skill span{position:relative;z-index:2;}
+.skill::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:0;
+  width:100%;height:0;
+  background:var(--accent);
+  transition:.35s;
+}
+.r40:hover::after{height:40%}
+.r44:hover::after{height:44%}
+.r54:hover::after{height:54%}
+.r60:hover::after{height:60%}
+.r70:hover::after{height:70%}
+.r80:hover::after{height:80%}
+.r90:hover::after{height:90%}
+/* EXPLORE BLUR */
+.blur{
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,.35);
+  opacity:0;
+  pointer-events:none;
+  transition:.4s;
+  z-index:800;
+}
+.blur.active{
+  opacity:1;
+  pointer-events:auto;
+}
+/* EXPLORE PANEL */
+.panel{
+  position:fixed;
+  left:0;right:0;
+  top:80px;bottom:0;
+  background:var(--bg);
+  border-radius:26px 26px 0 0;
+  transform:translateY(100%);
+  transition:.6s cubic-bezier(.22,.61,.36,1);
+  z-index:900;
+  padding:50px 8vw;
+  overflow-y:auto;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:
+    0 -1px 0 rgba(0,0,0,.04),
+    0 -12px 40px rgba(0,0,0,.18),
+    0 0 0 1px rgba(0,0,0,.04) inset;
+}
+body.dark .panel{
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,.05),
+    0 -12px 40px rgba(0,0,0,.6),
+    0 0 0 1px rgba(255,255,255,.04) inset;
+}
+.panel.active{transform:translateY(0);}
+.return{
+  color:#007aff;
+  font-size:18px;
+  cursor:pointer;
+  margin-bottom:30px;
+}
+.panel-inner{max-width:900px; margin:0 auto;}
+#panelContent{}
+/* Panel content aesthetics */
+.thesis h1, .modeI h1, .cellular h1{font-size:28px; margin:0 0 12px;}
+.thesis h2, .modeI h2, .cellular h2{font-size:22px; margin:22px 0 8px;}
+.thesis h3, .modeI h3, .cellular h3{font-size:18px; margin:20px 0 8px;}
+.thesis p, .modeI p, .cellular p{margin:0 0 16px; line-height:1.6;}
+.thesis ul, .modeI ul, .cellular ul{margin:0 0 16px 18px; line-height:1.6;}
+.thesis .section-block, .modeI .section-block, .cellular .section-block{margin:10px 0 18px;}
+/* CENTER */
+.center{
+  max-width:800px;
+  margin:auto;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+<header id="header">
+  <div class="name" id="brand" role="link" tabindex="0" aria-label="Go to top">
+    <div class="full">Srivatsan Chinnaswamy Venugopal</div>
+    <div class="role">Mechanical Engineer</div>
+    <div class="short">Srivatsan</div>
+  </div>
+  <div class="right">
+    <nav class="nav" aria-label="Primary">
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <div class="menu">
+        <a href="#featured">Projects</a>
+        <div class="dropdown" role="menu" aria-label="Projects submenu">
+          <a href="#featured">Featured Projects</a>
+          <a href="#other-projects">Other Projects</a>
+        </div>
+      </div>
+      <div class="menu">
+        <a href="#skills">Skills</a>
+        <div class="dropdown" role="menu" aria-label="Skills submenu">
+          <a href="#skills-cad">CAD & Design</a>
+          <a href="#skills-sim">Simulation & Analysis</a>
+          <a href="#skills-prog">Programming & Scripting</a>
+          <a href="#skills-print">3D Printing & Manufacturing</a>
+          <a href="#skills-doc">Mathematics & Documentation</a>
+        </div>
+      </div>
+      <a href="#achievements">Achievements</a>
+      <a href="#hobbies">Hobbies</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="toggle" id="toggle" aria-label="Toggle dark mode"></div>
+  </div>
+</header>
+<!-- EDUCATION -->
+<section class="section" id="education">
+<h2>Education</h2>
+<div class="education">
+  <div class="card">
+    <strong>BITS Pilani</strong><br>
+    B.E. Mechanical Engineering
+    <div class="reveal">Minor in Robotics and Automation · CGPA: 7.92/10 · 2021 - 2025</div>
+  </div>
+  <div class="card">
+    <strong>University of Florida</strong><br>
+    M.S. Mechanical Engineering
+    <div class="reveal">GPA: 3.89/4.0 · 2025 - 2027</div>
+  </div>
+</div>
+</section>
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+<h2>Experience</h2>
+<div class="card exp-card">
+<strong>Graduate Student Researcher</strong><br>University of Florida
+<ul>
+  <li>Microindentation on multi-/single-phase materials to study phase-dependent hardness and local deformation.</li>
+  <li>Correlated hardness variation with microstructural features.</li>
+</ul>
+<div class="hover-reveal">LDRAM Research Group</div>
+<div class="meta-year">2025 - Present</div>
+</div>
+<div class="card exp-card">
+<strong>Undergraduate Student Researcher</strong><br>BITS Pilani
+<ul>
+  <li>Fracture toughness studies on 3D-printed polymers in the Additive Manufacturing Laboratory.</li>
+  <li>Analyzed effects of layer orientation, infill pattern, raster angle on crack propagation.</li>
+</ul>
+<div class="hover-reveal">Additive Manufacturing Lab</div>
+<div class="meta-year">2022 - 2025</div>
+<!-- Explore more removed for USR as requested -->
+</div>
+<div class="card exp-card">
+<strong>Undergraduate Thesis Student</strong><br>Indian Institute of Science (IISc)
+<ul>
+  <li>Upgraded powder feeder for non-spherical powders, achieving ~40% higher feed rate.</li>
+  <li>Integrated with Directed Energy Deposition; compared spherical vs. non-spherical performance.</li>
+</ul>
+<div class="hover-reveal">LAMFiP Research Group</div>
+<div class="meta-year">2024 - 2025</div>
+<div class="explore" data-panel="thesis">Explore more →</div>
+</div>
+<div class="card exp-card">
+<strong>Summer Intern</strong><br>Terraserve Engineers and Contractors
+<ul>
+  <li>Exposure to vacuum heat treatment and lean practices (Kaizen, Six Sigma).</li>
+</ul>
+<div class="hover-reveal"></div> <!-- only year on hover -->
+<div class="meta-year">2023</div>
+</div>
+<div class="card exp-card">
+<strong>Mechanical Design Engineer</strong><br>Aeolus BPHC
+<ul>
+  <li>Drone prototype design: concept, materials, and component integration to meet performance criteria.</li>
+</ul>
+<div class="hover-reveal"></div> <!-- only year on hover -->
+<div class="meta-year">2023</div>
+</div>
+</section>
+<!-- FEATURED PROJECTS -->
+<section class="section" id="featured">
+<h2>Featured Projects</h2>
+<div class="card proj">
+<strong>Fracture Mechanics of 3D-Printed Cellular Structures</strong>
+<ul>
+<li>Cellular structures with varying internal angles.</li>
+<li>Crack propagation and fracture behavior.</li>
+</ul>
+<div class="explore" data-panel="cellular">Explore more →</div>
+</div>
+<div class="card proj" style="margin-top:28px;">
+<strong>Estimation of Fracture Toughness of 3D-Printed Thermoplastics</strong>
+<ul>
+<li>Mode-I DCB fracture testing.</li>
+<li>Effect of print parameters.</li>
+</ul>
+<div class="explore" data-panel="modeI">Explore more →</div>
+</div>
+</section>
+<!-- OTHER PROJECTS -->
+<section class="section" id="other-projects">
+<h2>Other Projects</h2>
+<div class="carousel-wrap" id="carouselWrap">
+  <div class="arrow left" id="left">‹</div>
+  <div class="arrow right" id="right">›</div>
+  <div class="carousel" id="carousel"></div>
+</div>
+</section>
+<!-- SKILLS -->
+<section class="section" id="skills">
+<h2>Skills</h2>
+<!-- CAD & Design -->
+<h3 id="skills-cad">CAD & Design</h3>
+<div class="skills-grid">
+  <div class="skill r60"><span>SolidWorks</span></div>
+  <div class="skill r70"><span>AutoCAD</span></div>
+  <div class="skill r60"><span>Creo Parametric</span></div>
+  <div class="skill r80"><span>Fusion 360</span></div>
+  <div class="skill r60"><span>Onshape</span></div>
+</div>
+<!-- Simulation & Analysis -->
+<h3 id="skills-sim">Simulation & Analysis</h3>
+<div class="skills-grid">
+  <div class="skill r40"><span>COMSOL</span></div>
+  <div class="skill r44"><span>Abaqus</span></div>
+  <div class="skill r60"><span>ANSYS</span></div>
+</div>
+<!-- Programming & Scripting -->
+<h3 id="skills-prog">Programming & Scripting</h3>
+<div class="skills-grid">
+  <div class="skill r54"><span>Python</span></div>
+  <div class="skill r40"><span>C Programming</span></div>
+</div>
+<!-- 3D Printing & Manufacturing -->
+<h3 id="skills-print">3D Printing & Manufacturing</h3>
+<div class="skills-grid">
+  <div class="skill r80"><span>Ultimaker Cura</span></div>
+  <div class="skill r80"><span>Creality Slicer</span></div>
+</div>
+<!-- Mathematics & Documentation -->
+<h3 id="skills-doc">Mathematics & Documentation</h3>
+<div class="skills-grid">
+  <div class="skill r70"><span>MATLAB</span></div>
+  <div class="skill r90"><span>LaTeX</span></div>
+  <div class="skill r90"><span>MS Office</span></div>
+  <div class="skill r80"><span>iWork</span></div>
+</div>
+</section>
+<!-- ACHIEVEMENTS -->
+<section class="section" id="achievements">
+<h2>Achievements</h2>
+<p><strong>MCN Scholarship, BITS Pilani</strong><br>Merit-cum-Need based scholarship awarded across six semesters for consistent academic performance during my undergraduate degree.</p>
+<p><strong>Academic Achievement Award, University of Florida</strong><br>Academic award associated with admission to the Herbert Wertheim College of Engineering.</p>
+</section>
+<!-- HOBBIES (center-aligned only here) -->
+<section class="section" id="hobbies">
+  <div class="center">
+    <h2>Hobbies</h2>
+    <p>
+      My long-term goal is to work at the intersection of fracture mechanics, materials design, and additive manufacturing, with a focus on improving the reliability of AM-built components and making these processes more viable for real-world use. I am particularly interested in understanding material behavior and failure mechanisms so that design and manufacturing decisions are driven by performance and sustainability. Over time, I hope to contribute through research-oriented roles, either in advanced industrial R&D or through doctoral research, to help enable broader adoption of additive manufacturing technologies.
+    </p>
+    <p>
+      Outside academics, I actively play competitive cricket and have captained my school U16 team. Being part of a team sport has played a big role in shaping how I work with others, handle pressure, and stay disciplined over long periods of training and competition. Apart from sports, I enjoy watching films in my free time, which helps me unwind and step away from technical work for a bit.
+    </p>
+  </div>
+</section>
+<!-- CONTACT -->
+<section class="section" id="contact">
+<h2>Contact</h2>
+<p>Email: <a href="mailto:chinnaswamyvenusrivatsan@gmail.com">chinnaswamyvenusrivatsan@gmail.com</a></p>
+<p>Phone: <a href="tel:+13527215093">+1 (352) 721-5093</a></p>
+<p>LinkedIn: <a href="https://linkedin.com/in/cvsrivatsan" target="_blank" rel="noopener">linkedin.com/in/cvsrivatsan</a></p>
+</section>
+<div class="blur" id="blur"></div>
+<div class="panel" id="panel">
+  <div class="panel-inner">
+    <div class="return" id="closePanel">← Return</div>
+    <div id="panelContent"></div>
+  </div>
+</div>
+<script>
+/* HEADER SHRINK */
+const header=document.getElementById("header");
+window.addEventListener("scroll",()=>{
+  header.classList.toggle("shrink",window.scrollY>60);
+});
+/* DARK MODE */
+document.getElementById("toggle").onclick=()=>{
+  document.body.classList.toggle("dark");
+};
+/* EXPLORE PANEL */
+const blur=document.getElementById("blur");
+const panel=document.getElementById("panel");
+const panelContent=document.getElementById("panelContent");
+function openPanel(){ blur.classList.add("active"); panel.classList.add("active"); }
+function closePanel(){ blur.classList.remove("active"); panel.classList.remove("active"); }
+/* Populate panel depending on which Explore was clicked */
+document.addEventListener("click",(e)=>{
+  const ex = e.target.closest(".explore");
+  if(!ex) return;
+  const which = ex.dataset.panel || "";
+  if(which==="thesis"){
+    panelContent.innerHTML = `
+      <div class="thesis">
+        <h1>Undergraduate Thesis</h1>
+        <h2>Multi Material Metal Additive Manufacturing</h2>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This undergraduate thesis focuses on the design and development of a powder feeder system for Direct Energy
+            Deposition (DED) metal additive manufacturing, with the objective of achieving stable, repeatable, and defect free
+            powder flow. The work specifically addresses challenges associated with non spherical metal powders, which commonly
+            lead to clogging, ratholing, and inconsistent deposition in conventional feeders.
+          </p>
+          <!-- Photo placeholder: add image here -->
+        </div>
+        <div class="section-block">
+          <h3>Problem Statement</h3>
+          <p>
+            In DED processes, fluctuations in powder feed rate directly affect melt pool stability, microstructure, and final part
+            quality. Existing hopper based powder feeders often suffer from bridging, ratholing, pressure buildup, and flow instability,
+            particularly when handling non spherical powders. These issues limit process reliability and hinder multi material deposition.
+          </p>
+          <!-- Photos placeholder: add 3 images here -->
+        </div>
+        <div class="section-block">
+          <h3>Proposed Solution</h3>
+          <p>
+            A pressure assisted rotating disc powder feeder was designed and integrated with a funnel flow hopper. To improve powder
+            mobility and reduce flow failures, the system incorporates powder fluidization techniques and a custom 3D printed hopper
+            supplement that redistributes airflow within the hopper.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>System Working Principle</h3>
+          <p>
+            Powder delivery is governed by a controlled pressure differential between a compressed air inlet and an atmospheric outlet.
+            A rotating grooved disc meters powder uniformly from the hopper to the outlet, enabling consistent discharge independent of
+            gravity driven flow alone.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Flow Optimization Strategies</h3>
+          <ul>
+            <li>Mechanical stirring to disrupt stagnant zones</li>
+            <li>Wall based fluidization to reduce powder wall adhesion</li>
+            <li>Enhanced fluidization using a 3D printed hopper insert, specifically designed to improve flow of non spherical powders</li>
+          </ul>
+          <p>The enhanced fluidization approach showed the most reliable performance across operating conditions.</p>
+          <!-- Photos placeholder: add 3 images here -->
+        </div>
+        <div class="section-block">
+          <h3>Experimental Results</h3>
+          <p>
+            Flow rate testing demonstrated that the developed feeder achieved stable and repeatable powder flow across a range of
+            rotational speeds and operating pressures. Compared to a conventional laboratory hopper, the new system showed significant
+            improvement in handling non spherical powders.
+          </p>
+          <p>
+            The feeder was validated through DED printing of SS316 tracks on an SS304 substrate. Higher traverse speeds produced uniform
+            and defect free tracks, confirming the importance of controlled powder delivery in DED.
+          </p>
+          <!-- Photos placeholder: add 2 images here -->
+        </div>
+        <div class="section-block">
+          <h3>Key Takeaways</h3>
+          <ul>
+            <li>Fluidization based powder feeding improves flow consistency</li>
+            <li>Non spherical powders can be reliably used in DED with proper airflow control</li>
+            <li>Pressure assisted disc feeders enable repeatable and scalable powder delivery</li>
+            <li>Powder feeder design plays a critical role in deposition quality</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  } else if (which==="modeI"){
+    panelContent.innerHTML = `
+      <div class="modeI">
+        <h1>Estimation of Mode I Fracture Toughness</h1>
+        <h2>3D Printed PLA and ABS Polymers</h2>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This work presents an experimental estimation of Mode I interlaminar fracture toughness of FDM printed PLA and ABS polymers
+            using the Double Cantilever Beam (DCB) test. The study focuses on how the method of pre crack introduction influences fracture
+            initiation, crack propagation, and measured toughness values in additively manufactured polymers.
+          </p>
+          <!-- Photo placeholder: add image(s) here -->
+        </div>
+        <div class="section-block">
+          <h3>Motivation</h3>
+          <p>
+            Additively manufactured polymer components are increasingly used in load bearing applications, where interlayer failure is a
+            dominant mode of fracture. However, there is no standardized approach for introducing pre cracks in 3D printed samples.
+            Conventional methods such as inserting Kapton tape require pausing the print, which introduces defects and weak interlayer
+            bonding. This study evaluates an alternative support based pre crack method that avoids print interruption and improves test
+            reliability.
+          </p>
+          <!-- Photos placeholder: add 2 images here -->
+        </div>
+        <div class="section-block">
+          <h3>Experimental Methodology</h3>
+          <p>
+            Mode I fracture toughness was evaluated using DCB specimens printed according to ASTM D5528. PLA and ABS samples were fabricated
+            using FDM with identical raster angle, infill density, and print orientation.
+          </p>
+          <ul>
+            <li>Tape method using Kapton tape applied mid print</li>
+            <li>Support method where supports are printed in the delamination zone and removed post print</li>
+          </ul>
+          <p>
+            DCB tests were performed under displacement controlled loading, and fracture toughness was calculated using the Modified Beam
+            Theory (MBT) approach. Crack opening was monitored visually and through compliance calibration.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Key Results</h3>
+          <ul>
+            <li>Samples printed with supports showed consistently higher Mode I fracture toughness compared to tape based samples</li>
+            <li>The support method resulted in approximately 25 percent higher critical energy release rate (GIc)</li>
+            <li>ABS samples exhibited nearly 50 percent higher initiation GIc than PLA, indicating better resistance to crack initiation</li>
+            <li>Once fracture initiated, both PLA and ABS showed similar crack propagation behavior</li>
+            <li>Tape based samples showed clean midplane fracture, while support printed samples exhibited interlayer crack deflection and fiber bridging</li>
+          </ul>
+          <!-- Photos placeholder: add 4 images here -->
+        </div>
+        <div class="section-block">
+          <h3>Fractography and Failure Mechanisms</h3>
+          <ul>
+            <li>Tape based samples showed weak interlayer bonding and planar crack paths</li>
+            <li>Support based samples exhibited fiber bridging, crack deflection across layers, and increased resistance to crack growth</li>
+            <li>ABS samples showed stronger resistance to crack initiation due to improved interlayer bonding</li>
+          </ul>
+          <p>
+            These observations confirm that sample preparation strongly influences measured fracture toughness in FDM printed materials.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Key Takeaways</h3>
+          <ul>
+            <li>Pre crack introduction method significantly affects measured fracture toughness</li>
+            <li>Support based crack initiation provides more reliable and higher GIc values</li>
+            <li>ABS shows superior crack initiation resistance compared to PLA</li>
+            <li>Fiber bridging plays a major role in improving fracture resistance</li>
+            <li>Continuous printing improves interlayer bonding and test repeatability</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  } else if (which==="cellular"){
+    panelContent.innerHTML = `
+      <div class="cellular">
+        <h1>Fracture Mechanics of 3D Printed Cellular Structures</h1>
+        <h2>Mode I Crack Initiation and Energy Absorption in PLA Lattices</h2>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This work investigates the Mode I fracture behavior of FDM printed PLA cellular lattice structures under three point
+            bending. The study focuses on how internal cell geometry and re-entrant angles influence crack initiation, crack
+            propagation, and energy absorption in additively manufactured lattices.
+          </p>
+          <!-- Photo placeholder: add image(s) here -->
+        </div>
+        <div class="section-block">
+          <h3>Motivation</h3>
+          <p>
+            Cellular and auxetic lattice structures are widely used for lightweight and energy absorbing applications. While stiffness
+            and compression behavior are well studied, fracture toughness and crack propagation in these structures remain less understood,
+            particularly for FDM printed polymers where anisotropy and interlayer defects dominate failure. This study addresses this gap
+            by introducing controlled pre-cracks and systematically evaluating fracture response across different lattice geometries.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Lattice Design and Specimens</h3>
+          <p>
+            Five lattice topologies were designed and fabricated while keeping material, printing parameters, and outer dimensions
+            constant:
+          </p>
+          <ul>
+            <li>Honeycomb lattice with internal angle of 120°</li>
+            <li>Rectangular lattice with internal angle of 90°</li>
+            <li>Re-entrant lattices with internal angles of 75°, 65°, and 60°</li>
+          </ul>
+          <p>
+            All specimens contained 98 repeating unit cells and were scaled to maintain comparable outer surface areas. A central notch
+            was introduced during CAD modeling to ensure consistent crack initiation across all designs.
+          </p>
+          <!-- Photo placeholder: add image(s) of lattice designs here -->
+        </div>
+        <div class="section-block">
+          <h3>Experimental Methodology</h3>
+          <p>
+            Fracture behavior was evaluated using a single edge notched beam (SENB) configuration under three point bending, following
+            the principles of ASTM D5045 with justified modifications for FDM printed lattices.
+          </p>
+          <p>Key fracture metrics extracted:</p>
+          <ul>
+            <li>Stress intensity factor at crack initiation (KINI)</li>
+            <li>Specific work of fracture, representing total energy absorbed until failure</li>
+          </ul>
+          <p>
+            Testing was conducted under displacement controlled loading, and each configuration was tested in triplicate to ensure
+            repeatability.
+          </p>
+          <!-- Photo placeholder: add test setup image(s) here -->
+        </div>
+        <div class="section-block">
+          <h3>Fracture Behavior and Mechanisms</h3>
+          <ul>
+            <li>Honeycomb lattices exhibited brittle behavior with snap through failure and limited post peak energy absorption</li>
+            <li>Rectangular lattices showed intermediate fracture resistance with gradual load decay</li>
+            <li>Re-entrant lattices demonstrated ductile like responses with extensive filament bridging, pull out, and localized densification</li>
+          </ul>
+          <p>
+            The inward angled ligaments in re-entrant structures promoted stress redistribution, delayed crack propagation, and enhanced
+            post initiation toughness.
+          </p>
+          <!-- Photo placeholder: add fracture surface/mechanism images here -->
+        </div>
+        <div class="section-block">
+          <h3>Key Results</h3>
+          <ul>
+            <li>Re-entrant lattices significantly outperformed honeycomb and rectangular lattices in fracture resistance</li>
+            <li>The RE65 configuration achieved the best balance, showing the highest crack initiation toughness and the largest work of fracture</li>
+            <li>Sharper re-entrant angles in RE60 led to earlier crack initiation but higher post initiation energy absorption</li>
+            <li>Crack propagation was governed by filament bridging and pull out mechanisms, similar to those observed in composite materials</li>
+          </ul>
+          <!-- Photo placeholder: add plots/metrics here -->
+        </div>
+        <div class="section-block">
+          <h3>Key Takeaways</h3>
+          <ul>
+            <li>Cellular geometry strongly governs fracture toughness in FDM printed lattices</li>
+            <li>Re-entrant topologies improve crack resistance and energy dissipation</li>
+            <li>Controlled crack initiation enables meaningful fracture mechanics comparisons</li>
+            <li>Geometry tailoring can mitigate anisotropy inherent to FDM processes</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  } else if (which==="undt"){
+    panelContent.innerHTML = `
+      <div class="modeI">
+        <h1>Ultrasonic NDT and AI/ML Defect Identification in Additive Manufacturing</h1>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This project focused on non-destructive evaluation of additively manufactured polymer parts using ultrasonic testing,
+            combined with sensor based data acquisition and basic machine learning workflows to support defect identification.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Objective</h3>
+          <p>
+            To explore how ultrasonic non-destructive testing (UNDT) and in-situ sensing can be used to identify defects such as porosity,
+            lack of fusion, and internal inconsistencies in FDM printed components, and to study the feasibility of correlating these
+            observations with data driven models.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Methodology</h3>
+          <ul>
+            <li>A custom monitoring rig was designed and mounted around an FDM printer</li>
+            <li>ESP32 cameras were used to capture images during printing</li>
+            <li>Images were automatically uploaded to Google Drive using Python scripts</li>
+            <li>Printed parts were later inspected using ultrasonic NDT techniques</li>
+            <li>Sensor data and inspection results were organized to form a dataset suitable for machine learning based defect classification</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Key Learnings</h3>
+          <ul>
+            <li>Practical exposure to ultrasonic testing principles and defect interpretation</li>
+            <li>Experience with in-situ monitoring of additive manufacturing processes</li>
+            <li>Hands-on work with ESP32 cameras, data acquisition, and automation scripts</li>
+            <li>Understanding of how experimental NDT data can complement ML based defect detection</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Tools and Techniques</h3>
+          <ul>
+            <li>Ultrasonic non-destructive testing</li>
+            <li>FDM 3D printing</li>
+            <li>ESP32 camera modules</li>
+            <li>Python scripting and Google Colab</li>
+            <li>Dataset preparation for ML workflows</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Outcome</h3>
+          <p>
+            The project demonstrated the feasibility of combining NDT techniques with data driven approaches for defect identification in
+            3D printed parts and provided strong practical exposure to process monitoring and quality assessment in additive manufacturing.
+          </p>
+        </div>
+      </div>
+    `;
+  } else if (which==="fem"){
+    panelContent.innerHTML = `
+      <div class="modeI">
+        <h1>Stress Concentration Analysis in 2D Plate with Central Hole (FEM)</h1>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This project involved developing a MATLAB-based 2D finite element code to analyze a rectangular plate with a central circular
+            hole under uniaxial tension, with the objective of computing nodal displacements and stress distribution.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Problem Description</h3>
+          <p>
+            A flat plate containing a circular hole at the center was subjected to tensile loading along one direction. The presence of the
+            hole introduces stress concentration, making it a classic benchmark problem for validating finite element formulations.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Methodology</h3>
+          <ul>
+            <li>The plate domain was manually meshed by dividing it into four regions around the circular hole</li>
+            <li>A custom mesh generation function was written to generate nodal coordinates and element connectivity</li>
+            <li>Four-noded quadrilateral elements were used</li>
+            <li>Element stiffness matrices were computed using Gaussian quadrature</li>
+            <li>Global stiffness matrix assembly, force vector creation, and displacement solving were implemented from scratch</li>
+            <li>Boundary conditions were applied by prescribing forces on opposite edges of the plate</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Key Concepts Implemented</h3>
+          <ul>
+            <li>Structured mesh generation around geometric discontinuities</li>
+            <li>Shape functions and Jacobian formulation</li>
+            <li>Numerical integration using Gauss points</li>
+            <li>Assembly of global stiffness matrix</li>
+            <li>Application of boundary conditions and solution of linear systems</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Outcome</h3>
+          <p>
+            The code successfully computed displacement fields and stress behavior for the plate under tension, demonstrating the expected
+            stress concentration effect near the hole. The project provided strong hands-on understanding of FEM fundamentals beyond
+            black-box solvers.
+          </p>
+        </div>
+      </div>
+    `;
+  } else if (which==="robot3dof"){
+    panelContent.innerHTML = `
+      <div class="modeI">
+        <h1>Design and Construction of a 3-DOF Robotic Arm</h1>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This project involved the design, fabrication, and testing of a 3 degree of freedom robotic arm, developed using Design for
+            Additive Manufacturing (DfAM) principles. The focus was on achieving stable motion, balance, and precise end effector
+            positioning through iterative physical prototyping.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Design Approach</h3>
+          <ul>
+            <li>The arm was designed for lightweight construction and efficient load transfer</li>
+            <li>DfAM principles were applied to reduce part count and simplify assembly</li>
+            <li>Joint and link geometries were optimized for printability and strength</li>
+            <li>Components were designed to be modular and easily replaceable</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Iterative Development</h3>
+          <p>The robotic arm went through three design iterations, each addressing limitations observed during physical testing:</p>
+          <ul>
+            <li>Improved balance and center of mass distribution</li>
+            <li>Reduced joint play and improved motion stability</li>
+            <li>Enhanced structural rigidity without increasing weight</li>
+          </ul>
+          <p>Each iteration was fabricated, assembled, and evaluated before progressing to the next version.</p>
+        </div>
+        <div class="section-block">
+          <h3>Key Outcomes</h3>
+          <ul>
+            <li>Successful construction of a functional 3-DOF robotic arm</li>
+            <li>Demonstrated precision manipulation and smooth motion</li>
+            <li>Gained hands on experience in mechanical design, prototyping, and iteration driven improvement</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  } else if (which==="selfbalance"){
+    panelContent.innerHTML = `
+      <div class="modeI">
+        <h1>Self-Balancing and Obstacle Avoidance Robot</h1>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This project involved the design, construction, and control of a two-wheeled self-balancing robot capable of maintaining
+            upright stability using real-time sensor feedback and closed-loop control, with added basic obstacle avoidance functionality.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>System Design</h3>
+          <ul>
+            <li>A compact two-wheel robot platform was built using a custom lightweight chassis</li>
+            <li>Orientation was measured using an MPU6050 IMU sensor</li>
+            <li>Motor actuation was controlled via PWM signals through a motor driver</li>
+            <li>An ultrasonic sensor was integrated for obstacle detection</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Control Strategy</h3>
+          <ul>
+            <li>Real-time pitch angle estimation was implemented using sensor fusion</li>
+            <li>A PID controller was used to stabilize the robot about the vertical position</li>
+            <li>Controller gains were tuned iteratively to reduce oscillations and improve recovery</li>
+            <li>A Kalman filter was later introduced to reduce sensor noise and improve stability</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Iterative Testing</h3>
+          <p>The robot underwent multiple rounds of testing and tuning:</p>
+          <ul>
+            <li>Initial instability and oscillations were reduced through PID tuning</li>
+            <li>Balance recovery time improved significantly after filtering and gain refinement</li>
+            <li>Obstacle avoidance logic was added to pause motion when an object was detected and resume once cleared</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Outcome</h3>
+          <p>
+            The final robot demonstrated stable self-balancing behavior, smooth recovery from small disturbances, and reliable obstacle
+            detection, providing hands-on experience in feedback control, sensor integration, and real-world robotic systems.
+          </p>
+        </div>
+      </div>
+    `;
+  } else if (which==="airfoil"){
+    panelContent.innerHTML = `
+      <div class="modeI">
+        <h1>Experimental Study of Forces on a NACA Airfoil</h1>
+        <div class="section-block">
+          <h3>Overview</h3>
+          <p>
+            This project involved the experimental determination of lift variation with angle of attack for a NACA 0012 airfoil using a
+            wind tunnel setup. The focus was on force measurement, calibration, and data acquisition, rather than analytical aerodynamics.
+          </p>
+        </div>
+        <div class="section-block">
+          <h3>Experimental Setup</h3>
+          <ul>
+            <li>A NACA 0012 airfoil model was mounted inside a wind tunnel</li>
+            <li>Unidirectional load cells were used to measure aerodynamic forces</li>
+            <li>A stepper motor mechanism was employed to vary the angle of attack</li>
+            <li>Load cell calibration was performed prior to testing</li>
+            <li>Data was acquired and processed using MATLAB and NI DAQ tools</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Methodology</h3>
+          <ul>
+            <li>The airfoil was incrementally rotated through multiple step positions</li>
+            <li>Force readings were recorded at each angle of attack</li>
+            <li>Individual sensor forces were combined to obtain net lift force</li>
+            <li>Lift trends were analyzed as a function of step position and angle</li>
+          </ul>
+        </div>
+        <div class="section-block">
+          <h3>Outcome</h3>
+          <p>
+            The experiment successfully captured the variation of aerodynamic forces with angle of attack, demonstrating expected lift
+            trends and providing hands-on exposure to wind tunnel testing, sensor calibration, and experimental data analysis.
+          </p>
+        </div>
+      </div>
+    `;
+  } else {
+    panelContent.innerHTML = `
+      <div class="center">
+        <h2>Extended Details</h2>
+        <p>Images, figures, and PDF reports will appear here.</p>
+        <!-- Placeholder: add images or content here -->
+      </div>
+    `;
+  }
+  openPanel();
+});
+document.getElementById("closePanel").onclick=closePanel;
+/* CLOSE PANEL WHEN USING HEADER NAV */
+document.querySelectorAll('header .nav a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', ()=>{ if(panel.classList.contains('active')) closePanel(); });
+});
+/* CLICK NAME TO GO TOP + CLOSE PANEL */
+const brand = document.getElementById('brand');
+function goTop(){ closePanel(); window.scrollTo({top:0,behavior:'smooth'}); }
+brand.addEventListener('click', goTop);
+brand.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') goTop(); });
+/* CAROUSEL CONTENT (no dates shown) */
+const items=[
+  {
+    title:"Ultrasonic NDT and AI/ML Defect Identification in Additive Manufacturing",
+    bullets:[
+      "DfM test rig; ESP‑32 camera integration.",
+      "Automated capture & Wi‑Fi transfer (Python).",
+      "Correlated UNDT with AI‑predicted defects."
+    ],
+    panel:"undt"
+  },
+  {
+    title:"Stress Concentration Analysis in 2D Plate with Central Hole (FEM)",
+    bullets:[
+      "MATLAB FEM to compute stress concentration.",
+      "Geometry/material influence; contour plots."
+    ],
+    panel:"fem"
+  },
+  {
+    title:"Design and Construction of a 3-DOF Robotic Arm",
+    bullets:[
+      "3‑DOF arm using DfAM principles.",
+      "Precision manipulation; efficient transfer."
+    ],
+    panel:"robot3dof"
+  },
+  {
+    title:"Self-Balancing and Obstacle Avoidance Robot",
+    bullets:[
+      "Two‑wheel platform with MPU6050 IMU stabilization.",
+      "PID control + Kalman filtering for smooth recovery.",
+      "Ultrasonic pause/resume obstacle avoidance."
+    ],
+    panel:"selfbalance"
+  },
+  {
+    title:"Experimental Study of Forces on a NACA Airfoil",
+    bullets:[
+      "Wind tunnel tests on NACA 0012; stepper‑controlled AoA.",
+      "Calibrated load cells; NI DAQ + MATLAB acquisition.",
+      "Measured lift variation vs angle showing expected trends."
+    ],
+    panel:"airfoil"
+  }
+];
+const carousel=document.getElementById("carousel");
+const wrap=document.getElementById("carouselWrap");
+/* render cards */
+carousel.innerHTML = items.map(item => `
+  <div class="card">
+    <div class="title">${item.title}</div>
+    <ul>
+      ${item.bullets.map(b => `<li>${b}</li>`).join("")}
+    </ul>
+    <span class="explore" data-panel="${item.panel || ''}">Explore more →</span>
+  </div>
+`).join("");
+/* dimensions and motion to avoid end gap */
+let step, offset, totalCards, cardW, gap, trackW, viewportW, maxOffset;
+function computeDims(){
+  const firstCard = carousel.querySelector(".card");
+  const styles = getComputedStyle(carousel);
+  gap = parseFloat(styles.gap) || 24;
+  cardW = firstCard ? firstCard.getBoundingClientRect().width : 460;
+  totalCards = items.length;
+  step = cardW + gap;
+  trackW = totalCards*cardW + (totalCards-1)*gap;
+  viewportW = wrap.getBoundingClientRect().width;
+  maxOffset = Math.min(0, -(trackW - viewportW)); // last card flush to right edge
+}
+offset = 0;
+computeDims();
+window.addEventListener('resize', ()=>{
+  const currentIndex = Math.round(Math.abs(offset)/step);
+  computeDims();
+  offset = -currentIndex*step;
+  if(offset < maxOffset) offset = maxOffset;
+  carousel.style.transform = `translateX(${offset}px)`;
+});
+/* controls */
+function moveLeft(){
+  offset += step;
+  if(offset > 0) offset = 0;
+  carousel.style.transform = `translateX(${offset}px)`;
+}
+function moveRight(){
+  const next = offset - step;
+  if(next <= maxOffset){
+    offset = maxOffset; // show last card flush; no empty space
+  } else {
+    offset = next;
+  }
+  carousel.style.transform = `translateX(${offset}px)`;
+}
+document.getElementById("left").onclick=moveLeft;
+document.getElementById("right").onclick=()=>{
+  if(offset === maxOffset){ offset = 0; carousel.style.transform = `translateX(${offset}px)`; }
+  else moveRight();
+};
+/* auto slide every 4s with end wrap (no gap) */
+setInterval(()=>{
+  if(offset === maxOffset){
+    offset = 0; // after 4s at end, jump to start
+  } else {
+    const next = offset - step;
+    offset = (next <= maxOffset) ? maxOffset : next;
+  }
+  carousel.style.transform = `translateX(${offset}px)`;
+},4000);
+</script>
+</body>
+</html>
