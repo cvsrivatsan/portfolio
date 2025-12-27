@@ -302,6 +302,15 @@ body.dark .panel{
   margin:auto;
   text-align:center;
 }
+
+  .footer{
+  padding:18px 6vw;
+  text-align:center;
+  color:var(--text);
+  opacity:.75;
+  border-top:1px solid rgba(0,0,0,.08);
+}
+body.dark .footer{ border-top:1px solid rgba(255,255,255,.10); }
 </style>
 </head>
 <body>
@@ -1273,9 +1282,13 @@ setInterval(()=>{
   carousel.style.transform = `translateX(${offset}px)`;
 },4000);
 </script>
+  <footer class="footer" aria-label="Site footer">
+  &copy; 2025 Srivatsan Chinnaswamy Venugopal
+</footer>
 </body>
 
 </html>
+
 
 
 
