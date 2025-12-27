@@ -875,11 +875,25 @@ document.addEventListener("click",(e)=>{
           <h3>Methodology</h3>
           <ul>
             <li>A custom monitoring rig was designed and mounted around an FDM printer</li>
-            <li>ESP32 cameras were used to capture images during printing</li>
+            <li>ESP32 cameras were used to capture images during printing at 10-second intervals</li>
             <li>Images were automatically uploaded to Google Drive using Python scripts</li>
             <li>Printed parts were later inspected using ultrasonic NDT techniques</li>
             <li>Sensor data and inspection results were organized to form a dataset suitable for machine learning based defect classification</li>
           </ul>
+          <img
+  src="assets/images/testrig.jpeg"
+  alt="Image showing the designed and manufactured test rig"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+<img
+  src="assets/images/esp10.jpeg"
+  alt="Image showing 2 images uploaded to google drive at 10s intervals"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+
+
         </div>
         <div class="section-block">
           <h3>Key Learnings</h3>
@@ -937,6 +951,13 @@ document.addEventListener("click",(e)=>{
             <li>Global stiffness matrix assembly, force vector creation, and displacement solving were implemented from scratch</li>
             <li>Boundary conditions were applied by prescribing forces on opposite edges of the plate</li>
           </ul>
+          <img
+  src="assets/images/mesh.jpeg"
+  alt="Mesh visualization done in MATLAB"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+
         </div>
         <div class="section-block">
           <h3>Key Concepts Implemented</h3>
@@ -1018,6 +1039,13 @@ document.addEventListener("click",(e)=>{
             <li>Motor actuation was controlled via PWM signals through a motor driver</li>
             <li>An ultrasonic sensor was integrated for obstacle detection</li>
           </ul>
+          <img
+  src="assets/images/selfbal.jpeg"
+  alt="Image of the self balancing robot"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+
         </div>
         <div class="section-block">
           <h3>Control Strategy</h3>
@@ -1027,6 +1055,20 @@ document.addEventListener("click",(e)=>{
             <li>Controller gains were tuned iteratively to reduce oscillations and improve recovery</li>
             <li>A Kalman filter was later introduced to reduce sensor noise and improve stability</li>
           </ul>
+          <img
+  src="assets/images/Stablegraph.jpeg"
+  alt="Stabilization graph of the Robot"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+<img
+  src="assets/images/obstavoid.jpeg"
+  alt="Obstacle avoidance done by the robot"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+
+
         </div>
         <div class="section-block">
           <h3>Iterative Testing</h3>
@@ -1066,6 +1108,13 @@ document.addEventListener("click",(e)=>{
             <li>Load cell calibration was performed prior to testing</li>
             <li>Data was acquired and processed using MATLAB and NI DAQ tools</li>
           </ul>
+          <img
+  src="assets/images/NACA.jpeg"
+  alt="Image showing NACA airfoil inside a wind tunnel"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+
         </div>
         <div class="section-block">
           <h3>Methodology</h3>
@@ -1075,6 +1124,13 @@ document.addEventListener("click",(e)=>{
             <li>Individual sensor forces were combined to obtain net lift force</li>
             <li>Lift trends were analyzed as a function of step position and angle</li>
           </ul>
+          <img
+  src="assets/images/ResultsNACA.jpeg"
+  alt="Results comparing the force vs angle of attack"
+  loading="lazy"
+  style="width:100%; border-radius:16px; margin:16px 0;"
+>
+
         </div>
         <div class="section-block">
           <h3>Outcome</h3>
@@ -1220,6 +1276,7 @@ setInterval(()=>{
 </body>
 
 </html>
+
 
 
 
